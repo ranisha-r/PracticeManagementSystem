@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PracticeManagementSystem.Core;
@@ -24,17 +25,20 @@ namespace PracticeManagementSystem.HCPManagement
 
         //[HttpPost("Modify HCP")]
         //public async Task<string> ModifyHCP(HCPInfo newHcp) => await _iHCPManagementService.ModifyHCP(newHcp);
-
+        
         [HttpPost("AddHcpInteractionInfo")]
+        [Authorize]
         public async Task<string> AddHcpInteractionInfo(HCPInteractionInfo interactionInfo) => await _iHCPManagementService.AddHcpInteractionInfo(interactionInfo);
 
         //[HttpGet("GenerateReport")]
         //public async Task<string> GenerateReport(int PatientId) => await _iHCPManagementService.GenerateReport(PatientId);
 
-        [HttpDelete("DeleteReport")]
+        [HttpDelete("DeleteDocument")]
+        [Authorize]
         public async Task<string> DeleteDocument(int PatientId) => await _iHCPManagementService.DeleteDocument(PatientId);
 
-        [HttpPut("AddSignature")]
+        [HttpPut("AddDocSignature")]
+        [Authorize]
         public async Task<string> AddDocSignature(DocumentInfo docinfo) => await _iHCPManagementService.AddDocSignature(docinfo);
        
     }

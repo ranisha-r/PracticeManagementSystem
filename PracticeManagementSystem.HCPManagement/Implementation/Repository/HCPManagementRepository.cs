@@ -68,11 +68,11 @@ namespace PracticeManagementSystem.HCPManagement
                     var response = await client.GetAsync("https://localhost:44385/api/User/SelectUserbyId?userId=" + interactionInfo.HCPId);
                     reshcp = response.StatusCode.ToString();
                     dobj = JsonConvert.DeserializeObject<UserInfo>(await response.Content.ReadAsStringAsync());
-                    doc_practiceid = pobj.PracticeID;
+                    doc_practiceid = dobj.PracticeId;
 
                 }
 
-                if ( resdiagnosis == null && pat_practiceid== doc_practiceid)
+                if ( resdiagnosis == null && pat_practiceid== doc_practiceid && dobj.RoleId==3)
                 {
 
                     interactionInfo.InsertedDate = DateTime.Now;
@@ -81,16 +81,16 @@ namespace PracticeManagementSystem.HCPManagement
                     _hCPManagementDBContext.HCPInteractionInfo.AddRange(interactionInfo);
                     //HCPInteractionInfo diaginfo = await _hCPManagementDBContext.HCPInteractionInfo.AsNoTracking().Where(x => x.PatientVisitId != 0).FirstOrDefaultAsync();                                  
                     await _hCPManagementDBContext.SaveChangesAsync();
-                    return "Patient Diagnosis Details updated successfully";
+                    return "Patient Interaction Details updated successfully";
                 }
-                return "Add Valid Diagnosis Details";
+                return "Add Valid Details";
                 
             }
             catch (Exception ex)
             {
 
                 Logger.Addlog(ex, "HCP");
-                return "Error occurred in adding diagnosis details";
+                return "Error occurred in adding Interaction details";
             }
         }
 
@@ -175,15 +175,42 @@ namespace PracticeManagementSystem.HCPManagement
             {
                 HCPInteractionInfo reshcp = await _hCPManagementDBContext.HCPInteractionInfo.AsNoTracking().Where(x=>x.HCPInteractionId == docinfo.DiagnosisId).FirstOrDefaultAsync();
                 DocumentInfo resdoc = await _hCPManagementDBContext.DocumentInfo.AsNoTracking().Where(x=>x.DiagnosisId == docinfo.DiagnosisId && x.HCPSignature== docinfo.HCPSignature).FirstOrDefaultAsync();
+        
+                PatientInfo pobj = new PatientInfo();
+                int pat_practiceid = 0;
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDE0NTI2ODQsImlzcyI6IlRlc3QuY29tIiwiYXVkIjoiVGVzdC5jb20ifQ.uQGmxaAJ3kSEycD0xSPhbQUXI2vEQBeOJJ3XuTB-zZk");
+                    var response = await client.GetAsync("https://localhost:44325/api/PatientManagement/SelectPatientById?PatientId=" + reshcp.PatientId);
+            
+                    pobj = JsonConvert.DeserializeObject<PatientInfo>(await response.Content.ReadAsStringAsync());
+                    pat_practiceid = pobj.PracticeID;
+                }
 
+              
+                UserInfo dobj = new UserInfo();
+                int doc_practiceid = 0;
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDE0NTI2ODQsImlzcyI6IlRlc3QuY29tIiwiYXVkIjoiVGVzdC5jb20ifQ.uQGmxaAJ3kSEycD0xSPhbQUXI2vEQBeOJJ3XuTB-zZk");
+                    var response = await client.GetAsync("https://localhost:44385/api/User/SelectUserbyId?userId=" + reshcp.HCPId);                 
+                    dobj = JsonConvert.DeserializeObject<UserInfo>(await response.Content.ReadAsStringAsync());
+                    doc_practiceid = dobj.PracticeId;
+
+                }
                 if (reshcp != null && resdoc == null)
                 {
                     docinfo.InsertedDate = DateTime.Now;
                     docinfo.UpdatedDate = DateTime.Now;
+                    if (dobj.RoleId == 3)
+                    {
+                        Report.GeneratePDF(reshcp, docinfo, pobj, dobj);
+                    }
+
                     _hCPManagementDBContext.DocumentInfo.AddRange(docinfo);
-                    
+             
                     await _hCPManagementDBContext.SaveChangesAsync();
-                    return "Signature addedd successfully";
+                    return "Signature and Document addedd successfully";
                 }
                 return "Add Valid Details";
 
@@ -207,7 +234,7 @@ namespace PracticeManagementSystem.HCPManagement
                     _hCPManagementDBContext.DocumentInfo.Remove(resdiagnosis);
                     _hCPManagementDBContext.HCPInteractionInfo.Remove(respatient);
                     await _hCPManagementDBContext.SaveChangesAsync();
-                    return "Report Deleted Successfully";
+                    return "Document Deleted Successfully";
                 }
 
                 return "Not deleted";

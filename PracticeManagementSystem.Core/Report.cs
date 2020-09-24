@@ -7,14 +7,15 @@ namespace PracticeManagementSystem.Core
 {
     public class Report
     {
-        public static void GeneratePDF(HCPInteractionInfo hCPInteractionInfo,DocumentInfo documentInfo)
+        public static void GeneratePDF(HCPInteractionInfo hCPInteractionInfo,DocumentInfo documentInfo,PatientInfo pobj,UserInfo dobj)
         {
             // Render any HTML fragment or document to HTML
             var Renderer = new IronPdf.HtmlToPdf();
-            string ReportDetails = "<h1 &quot; color:#4A235A;text-align: center;font-size:32px &quot;><i>Report<i></h1>"
-                + "<p > DocumentId       :   " + documentInfo.DocId + "</p><br/>"
-                + "<p> Diagnosis Id      :   " + hCPInteractionInfo.HCPInteractionId + "</p><br/>"
-                + "<p> PatientId         :   " + hCPInteractionInfo.PatientId + "</p><br/>"              
+
+            string ReportDetails = "<h1 &quot; color:#4A235A;text-align: center;font-size:32px &quot;><i>Document Name :"+ documentInfo.DocName+"</i></h1>"
+              
+                + "<p > Patient Name     :   " + pobj.PatientName + "</p><br/>"
+                + "<p>  HCP Name         :   " + dobj.UserName + "</p><br/>"
                 + "<p> VisitDate         :   " + hCPInteractionInfo.VisitDate + "</p><br/>"         
                 + "<p> DiagnosisDetails  :   " + hCPInteractionInfo.DiagnosisDetails + "</p><br/>"
                 + "<p> HCPComments       :   " + hCPInteractionInfo.HCPComments + "</p><br/>"
