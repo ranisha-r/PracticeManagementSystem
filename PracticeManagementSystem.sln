@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30309.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticeManagementSystem.Core", "PracticeManagementSystem.Core\PracticeManagementSystem.Core.csproj", "{AF153CAC-7DE9-486E-9792-83CE3BEC2349}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticeManagementSystem.RegistrationLogin", "PracticeManagementSystem.RegistrationLogin\PracticeManagementSystem.RegistrationLogin.csproj", "{E7A36051-DD26-4EDF-87DD-FB0B13A798DE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticeManagementSystem.PracticeManagement", "PracticeManagementSystem.PracticeManagement\PracticeManagementSystem.PracticeManagement.csproj", "{BA5342C4-299D-4136-AC11-73F77222F819}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticeManagementSystem.PatientManagement", "PracticeManagementSystem.PatientManagement\PracticeManagementSystem.PatientManagement.csproj", "{C8525B27-FBD8-40B0-8831-47274800C7EC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PracticeManagementSystem.HCPManagement", "PracticeManagementSystem.HCPManagement\PracticeManagementSystem.HCPManagement.csproj", "{18AE9858-41B2-425B-8D8A-B842B1A485E9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelotApiGateway", "OcelotApiGateway\OcelotApiGateway.csproj", "{8E4C89DF-D0B9-49D1-A623-31C91BB283DC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AF153CAC-7DE9-486E-9792-83CE3BEC2349}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF153CAC-7DE9-486E-9792-83CE3BEC2349}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF153CAC-7DE9-486E-9792-83CE3BEC2349}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF153CAC-7DE9-486E-9792-83CE3BEC2349}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7A36051-DD26-4EDF-87DD-FB0B13A798DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7A36051-DD26-4EDF-87DD-FB0B13A798DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7A36051-DD26-4EDF-87DD-FB0B13A798DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7A36051-DD26-4EDF-87DD-FB0B13A798DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA5342C4-299D-4136-AC11-73F77222F819}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA5342C4-299D-4136-AC11-73F77222F819}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA5342C4-299D-4136-AC11-73F77222F819}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA5342C4-299D-4136-AC11-73F77222F819}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8525B27-FBD8-40B0-8831-47274800C7EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8525B27-FBD8-40B0-8831-47274800C7EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8525B27-FBD8-40B0-8831-47274800C7EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8525B27-FBD8-40B0-8831-47274800C7EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18AE9858-41B2-425B-8D8A-B842B1A485E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18AE9858-41B2-425B-8D8A-B842B1A485E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18AE9858-41B2-425B-8D8A-B842B1A485E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18AE9858-41B2-425B-8D8A-B842B1A485E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E4C89DF-D0B9-49D1-A623-31C91BB283DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E4C89DF-D0B9-49D1-A623-31C91BB283DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E4C89DF-D0B9-49D1-A623-31C91BB283DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E4C89DF-D0B9-49D1-A623-31C91BB283DC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9ED592FC-E67B-4BE5-B99A-F4697F3E6701}
+	EndGlobalSection
+EndGlobal
