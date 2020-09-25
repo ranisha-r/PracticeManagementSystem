@@ -53,7 +53,7 @@ steps:
   displayName: 'Azure App Service Deploy: practicemanag'
   inputs:
     ConnectionType: 'AzureRM'
-    azureSubscription: 'Azure Pass - Sponsorship(b6e8cd6d-902c-4e67-baf4-93c19d6cc7e6)'
+    azureSubscription: 'Azure Pass - Sponsorship(1)(b6e8cd6d-902c-4e67-baf4-93c19d6cc7e6)'
     appType: 'webApp'
     WebAppName: 'practicemanag'
     packageForLinux: '$(build.artifactstagingdirectory)/**/*.zip'
