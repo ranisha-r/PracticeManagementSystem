@@ -80,10 +80,11 @@ namespace PracticeManagementSystem.PatientManagement
             {
                 PatientInfo respatient = await _patientManagementDBContext.PatientInfo.AsNoTracking().Where(x => x.PatientId == patientInfo.PatientId || x.PatientName == patientInfo.PatientName || x.EmailId==patientInfo.EmailId).FirstOrDefaultAsync();
                 string res = "";
+                string apiUrl = _config.GetSection("app").GetSection("ApiUrl_ViewPracticeById").Value;
                 using (HttpClient client = new HttpClient())
                 {
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDE0NTI2ODQsImlzcyI6IlRlc3QuY29tIiwiYXVkIjoiVGVzdC5jb20ifQ.uQGmxaAJ3kSEycD0xSPhbQUXI2vEQBeOJJ3XuTB-zZk");
-                    var response = await client.GetAsync("https://localhost:44335/api/PracticeManagement/ViewPracticeById?practiceId=" + patientInfo.PracticeID);
+                    var response = await client.GetAsync(apiUrl + patientInfo.PracticeID);
                     res = response.StatusCode.ToString();
 
 
@@ -100,7 +101,7 @@ namespace PracticeManagementSystem.PatientManagement
                     return "Patient added successfully";
 
                 }
-                return "Enter valid details";
+                return "Unable to register patient:Please enter valid details";
             }
 
             catch (Exception ex)
@@ -208,10 +209,11 @@ namespace PracticeManagementSystem.PatientManagement
                 PatientInfo respatient = await _patientManagementDBContext.PatientInfo.AsNoTracking().Where(x => x.PatientId == patientInfo.PatientId).FirstOrDefaultAsync();
                 PatientInfo existingpatient =await _patientManagementDBContext.PatientInfo.AsNoTracking().Where(x => x.PatientId != patientInfo.PatientId).FirstOrDefaultAsync();
                 string res = "";
+                string apiUrl = _config.GetSection("app").GetSection("ApiUrl_ViewPracticeById").Value;
                 using (HttpClient client = new HttpClient())
                 {
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDE0NTI2ODQsImlzcyI6IlRlc3QuY29tIiwiYXVkIjoiVGVzdC5jb20ifQ.uQGmxaAJ3kSEycD0xSPhbQUXI2vEQBeOJJ3XuTB-zZk");
-                    var response = await client.GetAsync("https://localhost:44335/api/PracticeManagement/ViewPracticeById?practiceId=" + patientInfo.PracticeID);
+                    var response = await client.GetAsync(apiUrl + patientInfo.PracticeID);
                     res = response.StatusCode.ToString();
 
 
@@ -229,14 +231,14 @@ namespace PracticeManagementSystem.PatientManagement
                     return "Patient modified successfully";
                 }
 
-                return "Enter valid details";
+                return "Unable to modify Patient:Please Enter valid details";
             }
 
             catch (Exception ex)
             {
 
                 Logger.Addlog(ex, "Patient");
-                return "Unable to add Patient";
+                return "Unable to modify Patient";
             }
         }
 

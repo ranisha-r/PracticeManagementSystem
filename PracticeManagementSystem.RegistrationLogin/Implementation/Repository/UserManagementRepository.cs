@@ -276,7 +276,7 @@ namespace PracticeManagementSystem.RegistrationLogin
             try
             {
                 UserInfo resreg = await _registrationLoginDBContext.UserInfo.AsNoTracking().Where(x => x.UserName == userInfo.UserName || x.UserId == userInfo.UserId || x.EmailId == userInfo.EmailId ).FirstOrDefaultAsync();
-
+                string apiUrl = _config.GetSection("app").GetSection("ApiUrl_ViewPracticeById").Value;
                 if (resreg == null)
                 {
                     string encryptedpassword = EncryptPassword(userInfo.Password, "E546C8DF278CD5931069B522E695D4F2");
@@ -304,7 +304,8 @@ namespace PracticeManagementSystem.RegistrationLogin
                                 using (HttpClient client = new HttpClient())
                                 {
                                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDE0NTI2ODQsImlzcyI6IlRlc3QuY29tIiwiYXVkIjoiVGVzdC5jb20ifQ.uQGmxaAJ3kSEycD0xSPhbQUXI2vEQBeOJJ3XuTB-zZk");
-                                    var response = await client.GetAsync("https://localhost:44335/api/PracticeManagement/ViewPracticeById?practiceId=" + userInfo.PracticeId);
+                                    
+                                    var response = await client.GetAsync(apiUrl + userInfo.PracticeId);
                                     res = response.StatusCode.ToString();
 
 
@@ -327,7 +328,7 @@ namespace PracticeManagementSystem.RegistrationLogin
                                 using (HttpClient client = new HttpClient())
                                 {
                                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDE0NTI2ODQsImlzcyI6IlRlc3QuY29tIiwiYXVkIjoiVGVzdC5jb20ifQ.uQGmxaAJ3kSEycD0xSPhbQUXI2vEQBeOJJ3XuTB-zZk");
-                                    var response = await client.GetAsync("https://localhost:44335/api/PracticeManagement/ViewPracticeById?practiceId=" + userInfo.PracticeId);
+                                    var response = await client.GetAsync(apiUrl + userInfo.PracticeId);
                                     res = response.StatusCode.ToString();
 
 

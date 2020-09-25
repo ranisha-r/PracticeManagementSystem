@@ -19,7 +19,7 @@ namespace PracticeManagementSystem.Core
                 + "<p> VisitDate         :   " + hCPInteractionInfo.VisitDate + "</p><br/>"         
                 + "<p> DiagnosisDetails  :   " + hCPInteractionInfo.DiagnosisDetails + "</p><br/>"
                 + "<p> HCPComments       :   " + hCPInteractionInfo.HCPComments + "</p><br/>"
-                + "<h3>" + documentInfo.HCPSignature + "</h3><br/>";
+                + "<h3>Signature Attestation: " + documentInfo.HCPSignature + "</h3><br/>";
                 
             var PDF = Renderer.RenderHtmlAsPdf(ReportDetails);
             var OutputPath = @"C:\PDF\Report.pdf";

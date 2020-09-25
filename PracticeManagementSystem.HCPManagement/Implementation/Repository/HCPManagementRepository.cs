@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using PracticeManagementSystem.Core;
 using System;
@@ -15,10 +16,12 @@ namespace PracticeManagementSystem.HCPManagement
     {
 
         private readonly HCPManagementDBContext _hCPManagementDBContext;
-        public HCPManagementRepository(HCPManagementDBContext hCPManagementDBContext)
+        private IConfiguration _config;
+        public HCPManagementRepository(HCPManagementDBContext hCPManagementDBContext, IConfiguration config)
         {
 
             _hCPManagementDBContext = hCPManagementDBContext;
+            _config = config;
         }
      
 
@@ -46,13 +49,15 @@ namespace PracticeManagementSystem.HCPManagement
 
 
                 //}
+                string apiUrl = _config.GetSection("app").GetSection("ApiUrl_SelectPatientById").Value;
+                string apiUrlUser = _config.GetSection("app").GetSection("ApiUrl_SelectUserById").Value;
                 string respatient = "";
                 PatientInfo pobj = new PatientInfo();
                 int pat_practiceid = 0;
                 using (HttpClient client = new HttpClient())
                 {
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDE0NTI2ODQsImlzcyI6IlRlc3QuY29tIiwiYXVkIjoiVGVzdC5jb20ifQ.uQGmxaAJ3kSEycD0xSPhbQUXI2vEQBeOJJ3XuTB-zZk");
-                    var response = await client.GetAsync("https://localhost:44325/api/PatientManagement/SelectPatientById?PatientId=" + interactionInfo.PatientId);
+                    var response = await client.GetAsync(apiUrl + interactionInfo.PatientId);
                     respatient = response.StatusCode.ToString();
                     pobj = JsonConvert.DeserializeObject<PatientInfo>(await response.Content.ReadAsStringAsync());
                     pat_practiceid = pobj.PracticeID;
@@ -65,7 +70,7 @@ namespace PracticeManagementSystem.HCPManagement
                 using (HttpClient client = new HttpClient())
                 {
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDE0NTI2ODQsImlzcyI6IlRlc3QuY29tIiwiYXVkIjoiVGVzdC5jb20ifQ.uQGmxaAJ3kSEycD0xSPhbQUXI2vEQBeOJJ3XuTB-zZk");
-                    var response = await client.GetAsync("https://localhost:44385/api/User/SelectUserbyId?userId=" + interactionInfo.HCPId);
+                    var response = await client.GetAsync(apiUrlUser + interactionInfo.HCPId);
                     reshcp = response.StatusCode.ToString();
                     dobj = JsonConvert.DeserializeObject<UserInfo>(await response.Content.ReadAsStringAsync());
                     doc_practiceid = dobj.PracticeId;
@@ -175,13 +180,14 @@ namespace PracticeManagementSystem.HCPManagement
             {
                 HCPInteractionInfo reshcp = await _hCPManagementDBContext.HCPInteractionInfo.AsNoTracking().Where(x=>x.HCPInteractionId == docinfo.DiagnosisId).FirstOrDefaultAsync();
                 DocumentInfo resdoc = await _hCPManagementDBContext.DocumentInfo.AsNoTracking().Where(x=>x.DiagnosisId == docinfo.DiagnosisId && x.HCPSignature== docinfo.HCPSignature).FirstOrDefaultAsync();
-        
+                string apiUrl = _config.GetSection("app").GetSection("ApiUrl_SelectPatientById").Value;
+                string apiUrlUser = _config.GetSection("app").GetSection("ApiUrl_SelectUserById").Value;
                 PatientInfo pobj = new PatientInfo();
                 int pat_practiceid = 0;
                 using (HttpClient client = new HttpClient())
                 {
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDE0NTI2ODQsImlzcyI6IlRlc3QuY29tIiwiYXVkIjoiVGVzdC5jb20ifQ.uQGmxaAJ3kSEycD0xSPhbQUXI2vEQBeOJJ3XuTB-zZk");
-                    var response = await client.GetAsync("https://localhost:44325/api/PatientManagement/SelectPatientById?PatientId=" + reshcp.PatientId);
+                    var response = await client.GetAsync(apiUrl + reshcp.PatientId);
             
                     pobj = JsonConvert.DeserializeObject<PatientInfo>(await response.Content.ReadAsStringAsync());
                     pat_practiceid = pobj.PracticeID;
@@ -193,7 +199,7 @@ namespace PracticeManagementSystem.HCPManagement
                 using (HttpClient client = new HttpClient())
                 {
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDE0NTI2ODQsImlzcyI6IlRlc3QuY29tIiwiYXVkIjoiVGVzdC5jb20ifQ.uQGmxaAJ3kSEycD0xSPhbQUXI2vEQBeOJJ3XuTB-zZk");
-                    var response = await client.GetAsync("https://localhost:44385/api/User/SelectUserbyId?userId=" + reshcp.HCPId);                 
+                    var response = await client.GetAsync(apiUrlUser + reshcp.HCPId);                 
                     dobj = JsonConvert.DeserializeObject<UserInfo>(await response.Content.ReadAsStringAsync());
                     doc_practiceid = dobj.PracticeId;
 
