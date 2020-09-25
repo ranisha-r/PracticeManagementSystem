@@ -1,0 +1,66 @@
+pool:
+  vmImage: 'ubuntu-latest'
+
+
+variables:
+  Parameters.RestoreBuildProjects: 'PracticeManagementSystem.PatientManagement/*.csproj'
+  BuildPlatform: 'Any CPU'
+  BuildConfiguration: 'Release'
+
+
+  
+trigger:
+  branches:
+   include:
+    - master
+  paths:
+    include:
+    - PracticeManagementSystem.PatientManagement/*
+    exclude:
+    - docs/README.md
+
+steps:
+- script: dotnet build **/PracticeManagementSystem.Core.csproj --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
+
+
+
+
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    projects: '$(Parameters.RestoreBuildProjects)'
+    arguments: '--configuration $(BuildConfiguration)'
+
+
+
+- task: DotNetCoreCLI@2
+  displayName: Publish
+  inputs:
+    command: publish
+    publishWebProjects: false
+    projects: '$(Parameters.RestoreBuildProjects)'
+    arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)'
+    zipAfterPublish: True
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+  condition: succeededOrFailed()
+
+- task: AzureRmWebAppDeployment@4
+  displayName: 'Azure App Service Deploy: patientmanag'
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Azure Pass - Sponsorship(b6e8cd6d-902c-4e67-baf4-93c19d6cc7e6)'
+    appType: 'webApp'
+    WebAppName: 'patientmanag'
+    packageForLinux: '$(build.artifactstagingdirectory)/**/*.zip'
+    ScriptType: 'Inline Script'
+    InlineScript: 'del *.pdb'
+
+    
+
+
+
